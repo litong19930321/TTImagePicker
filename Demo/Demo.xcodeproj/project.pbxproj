@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D1094F81E620020001E4186 /* tt_img_default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D1094ED1E620020001E4186 /* tt_img_default@2x.png */; };
+		9D1094F91E620020001E4186 /* tt_item_nor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D1094EE1E620020001E4186 /* tt_item_nor@2x.png */; };
+		9D1094FA1E620020001E4186 /* tt_item_sel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D1094EF1E620020001E4186 /* tt_item_sel@2x.png */; };
+		9D1094FB1E620020001E4186 /* TTAListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1094F11E620020001E4186 /* TTAListViewController.m */; };
+		9D1094FC1E620020001E4186 /* TTPhotoPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1094F31E620020001E4186 /* TTPhotoPickerController.m */; };
+		9D1094FD1E620020001E4186 /* TTPhotosGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1094F51E620020001E4186 /* TTPhotosGridViewController.m */; };
+		9D1094FE1E620020001E4186 /* TTPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1094F71E620020001E4186 /* TTPhotoViewController.m */; };
 		9DDD633C1E609A3B00A532CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDD633B1E609A3B00A532CB /* main.m */; };
 		9DDD633F1E609A3B00A532CB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDD633E1E609A3B00A532CB /* AppDelegate.m */; };
 		9DDD63421E609A3B00A532CB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDD63411E609A3B00A532CB /* ViewController.m */; };
@@ -15,12 +22,6 @@
 		9DDD634A1E609A3B00A532CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DDD63481E609A3B00A532CB /* LaunchScreen.storyboard */; };
 		9DDD63551E609A3B00A532CB /* DemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDD63541E609A3B00A532CB /* DemoTests.m */; };
 		9DDD63601E609A3B00A532CB /* DemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDD635F1E609A3B00A532CB /* DemoUITests.m */; };
-		9DDD63781E609A9300A532CB /* tt_item_nor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DDD636E1E609A9300A532CB /* tt_item_nor@2x.png */; };
-		9DDD63791E609A9300A532CB /* tt_item_sel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DDD636F1E609A9300A532CB /* tt_item_sel@2x.png */; };
-		9DDD637A1E609A9300A532CB /* TTAListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDD63711E609A9300A532CB /* TTAListViewController.m */; };
-		9DDD637B1E609A9300A532CB /* TTPhotoPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDD63731E609A9300A532CB /* TTPhotoPickerController.m */; };
-		9DDD637C1E609A9300A532CB /* TTPhotosGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDD63751E609A9300A532CB /* TTPhotosGridViewController.m */; };
-		9DDD637D1E609A9300A532CB /* TTPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDD63771E609A9300A532CB /* TTPhotoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9D1094ED1E620020001E4186 /* tt_img_default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tt_img_default@2x.png"; sourceTree = "<group>"; };
+		9D1094EE1E620020001E4186 /* tt_item_nor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tt_item_nor@2x.png"; sourceTree = "<group>"; };
+		9D1094EF1E620020001E4186 /* tt_item_sel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tt_item_sel@2x.png"; sourceTree = "<group>"; };
+		9D1094F01E620020001E4186 /* TTAListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTAListViewController.h; sourceTree = "<group>"; };
+		9D1094F11E620020001E4186 /* TTAListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTAListViewController.m; sourceTree = "<group>"; };
+		9D1094F21E620020001E4186 /* TTPhotoPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPhotoPickerController.h; sourceTree = "<group>"; };
+		9D1094F31E620020001E4186 /* TTPhotoPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPhotoPickerController.m; sourceTree = "<group>"; };
+		9D1094F41E620020001E4186 /* TTPhotosGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPhotosGridViewController.h; sourceTree = "<group>"; };
+		9D1094F51E620020001E4186 /* TTPhotosGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPhotosGridViewController.m; sourceTree = "<group>"; };
+		9D1094F61E620020001E4186 /* TTPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPhotoViewController.h; sourceTree = "<group>"; };
+		9D1094F71E620020001E4186 /* TTPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPhotoViewController.m; sourceTree = "<group>"; };
 		9DDD63371E609A3B00A532CB /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DDD633B1E609A3B00A532CB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9DDD633D1E609A3B00A532CB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -57,16 +69,6 @@
 		9DDD635B1E609A3B00A532CB /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DDD635F1E609A3B00A532CB /* DemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoUITests.m; sourceTree = "<group>"; };
 		9DDD63611E609A3B00A532CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9DDD636E1E609A9300A532CB /* tt_item_nor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tt_item_nor@2x.png"; sourceTree = "<group>"; };
-		9DDD636F1E609A9300A532CB /* tt_item_sel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tt_item_sel@2x.png"; sourceTree = "<group>"; };
-		9DDD63701E609A9300A532CB /* TTAListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTAListViewController.h; sourceTree = "<group>"; };
-		9DDD63711E609A9300A532CB /* TTAListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTAListViewController.m; sourceTree = "<group>"; };
-		9DDD63721E609A9300A532CB /* TTPhotoPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPhotoPickerController.h; sourceTree = "<group>"; };
-		9DDD63731E609A9300A532CB /* TTPhotoPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPhotoPickerController.m; sourceTree = "<group>"; };
-		9DDD63741E609A9300A532CB /* TTPhotosGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPhotosGridViewController.h; sourceTree = "<group>"; };
-		9DDD63751E609A9300A532CB /* TTPhotosGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPhotosGridViewController.m; sourceTree = "<group>"; };
-		9DDD63761E609A9300A532CB /* TTPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPhotoViewController.h; sourceTree = "<group>"; };
-		9DDD63771E609A9300A532CB /* TTPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPhotoViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9D1094EC1E620020001E4186 /* TTImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				9D1094ED1E620020001E4186 /* tt_img_default@2x.png */,
+				9D1094EE1E620020001E4186 /* tt_item_nor@2x.png */,
+				9D1094EF1E620020001E4186 /* tt_item_sel@2x.png */,
+				9D1094F01E620020001E4186 /* TTAListViewController.h */,
+				9D1094F11E620020001E4186 /* TTAListViewController.m */,
+				9D1094F21E620020001E4186 /* TTPhotoPickerController.h */,
+				9D1094F31E620020001E4186 /* TTPhotoPickerController.m */,
+				9D1094F41E620020001E4186 /* TTPhotosGridViewController.h */,
+				9D1094F51E620020001E4186 /* TTPhotosGridViewController.m */,
+				9D1094F61E620020001E4186 /* TTPhotoViewController.h */,
+				9D1094F71E620020001E4186 /* TTPhotoViewController.m */,
+			);
+			path = TTImagePicker;
+			sourceTree = "<group>";
+		};
 		9DDD632E1E609A3B00A532CB = {
 			isa = PBXGroup;
 			children = (
@@ -117,7 +137,7 @@
 		9DDD63391E609A3B00A532CB /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				9DDD636D1E609A9300A532CB /* TTImagePicker */,
+				9D1094EC1E620020001E4186 /* TTImagePicker */,
 				9DDD633D1E609A3B00A532CB /* AppDelegate.h */,
 				9DDD633E1E609A3B00A532CB /* AppDelegate.m */,
 				9DDD63401E609A3B00A532CB /* ViewController.h */,
@@ -155,23 +175,6 @@
 				9DDD63611E609A3B00A532CB /* Info.plist */,
 			);
 			path = DemoUITests;
-			sourceTree = "<group>";
-		};
-		9DDD636D1E609A9300A532CB /* TTImagePicker */ = {
-			isa = PBXGroup;
-			children = (
-				9DDD636E1E609A9300A532CB /* tt_item_nor@2x.png */,
-				9DDD636F1E609A9300A532CB /* tt_item_sel@2x.png */,
-				9DDD63701E609A9300A532CB /* TTAListViewController.h */,
-				9DDD63711E609A9300A532CB /* TTAListViewController.m */,
-				9DDD63721E609A9300A532CB /* TTPhotoPickerController.h */,
-				9DDD63731E609A9300A532CB /* TTPhotoPickerController.m */,
-				9DDD63741E609A9300A532CB /* TTPhotosGridViewController.h */,
-				9DDD63751E609A9300A532CB /* TTPhotosGridViewController.m */,
-				9DDD63761E609A9300A532CB /* TTPhotoViewController.h */,
-				9DDD63771E609A9300A532CB /* TTPhotoViewController.m */,
-			);
-			path = TTImagePicker;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,11 +286,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D1094FA1E620020001E4186 /* tt_item_sel@2x.png in Resources */,
 				9DDD634A1E609A3B00A532CB /* LaunchScreen.storyboard in Resources */,
+				9D1094F91E620020001E4186 /* tt_item_nor@2x.png in Resources */,
 				9DDD63471E609A3B00A532CB /* Assets.xcassets in Resources */,
-				9DDD63791E609A9300A532CB /* tt_item_sel@2x.png in Resources */,
+				9D1094F81E620020001E4186 /* tt_img_default@2x.png in Resources */,
 				9DDD63451E609A3B00A532CB /* Main.storyboard in Resources */,
-				9DDD63781E609A9300A532CB /* tt_item_nor@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,12 +316,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DDD637B1E609A9300A532CB /* TTPhotoPickerController.m in Sources */,
-				9DDD637C1E609A9300A532CB /* TTPhotosGridViewController.m in Sources */,
-				9DDD637D1E609A9300A532CB /* TTPhotoViewController.m in Sources */,
+				9D1094FC1E620020001E4186 /* TTPhotoPickerController.m in Sources */,
+				9D1094FD1E620020001E4186 /* TTPhotosGridViewController.m in Sources */,
+				9D1094FE1E620020001E4186 /* TTPhotoViewController.m in Sources */,
 				9DDD63421E609A3B00A532CB /* ViewController.m in Sources */,
 				9DDD633F1E609A3B00A532CB /* AppDelegate.m in Sources */,
-				9DDD637A1E609A9300A532CB /* TTAListViewController.m in Sources */,
+				9D1094FB1E620020001E4186 /* TTAListViewController.m in Sources */,
 				9DDD633C1E609A3B00A532CB /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -556,6 +560,7 @@
 				9DDD63661E609A3B00A532CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9DDD63671E609A3B00A532CB /* Build configuration list for PBXNativeTarget "DemoTests" */ = {
 			isa = XCConfigurationList;
@@ -564,6 +569,7 @@
 				9DDD63691E609A3B00A532CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9DDD636A1E609A3B00A532CB /* Build configuration list for PBXNativeTarget "DemoUITests" */ = {
 			isa = XCConfigurationList;
@@ -572,6 +578,7 @@
 				9DDD636C1E609A3B00A532CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

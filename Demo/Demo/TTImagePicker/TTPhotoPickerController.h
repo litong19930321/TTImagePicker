@@ -14,4 +14,9 @@ typedef void(^TTComplete)(NSArray * images);
 -(void)completeSelect:(TTComplete)block;
 -(instancetype)initWithComplete:(TTComplete)block;
 
+/**
+ 最多可选几张照片
+ */
+@property (assign, nonatomic) NSInteger  maxPhotoNum;
+
 @end
