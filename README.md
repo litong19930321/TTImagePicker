@@ -15,5 +15,7 @@ TTPhotoPickerController * vc = [[TTPhotoPickerController alloc] initWithComplete
         //选择照片之后的回调  images为选择的图片数组
         //your code
     }];
-    [self presentViewController:vc animated:YES completion:nil];
+[self presentViewController:vc animated:YES completion:nil];
+//如果要设置最大的选取照片数则对maxPhotoNum进行赋值 ，不赋值的话，默认最大选择数为6张
+vc.maxPhotoNum = 3;
 ```
