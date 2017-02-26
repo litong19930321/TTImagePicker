@@ -12,6 +12,8 @@ typedef void(^TTSelectedImg)(NSArray * images);
 
 @interface TTAListViewController : UIViewController
 
+
+
 -(void)completeChooseImage:(TTSelectedImg)block;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "TTPhotoPickerController.h"
 #import "TTAListViewController.h"
+#import "TTConst.h"
 #import <pthread.h>
 @interface TTPhotoPickerController (){
 
@@ -18,9 +19,10 @@
 
 @implementation TTPhotoPickerController
 
+
 -(instancetype)initWithComplete:(TTComplete)block{
     TTAListViewController * ttVC = [[TTAListViewController alloc] init];
-    [ttVC completeChooseImage:^(NSArray *images) {
+    [ttVC completeChooseImage:^(NSArray *images){
         if (pthread_main_np()) {
             _completeBlock(images);
         }else{
@@ -28,6 +30,7 @@
                 _completeBlock(images);
             });
         }
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
     self = [super initWithRootViewController:ttVC];
     if (self) {
@@ -40,5 +43,9 @@
 
 -(void)completeSelect:(TTComplete)block{
     _completeBlock = block;
+}
+
+-(void)setMaxPhotoNum:(NSInteger)maxPhotoNum{
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSetMaxPhotoNumNotice object:@(maxPhotoNum)];
 }
 @end

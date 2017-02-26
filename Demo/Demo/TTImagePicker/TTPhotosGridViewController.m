@@ -9,12 +9,13 @@
 #import "TTPhotosGridViewController.h"
 #import "TTPhotoViewController.h"
 #import <Photos/Photos.h>
+#import "TTConst.h"
 
 
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height
 #define kGridItemIdentifier @"com.tt.aListcell"
-#define kItemWidth (kScreenWidth - 5 * 3) / 4
+#define kItemWidth (kTTScreenWidth - 5 * 3) / 4
+
+
 
 #pragma mark - TTPhotosGridItemModel
 
@@ -48,6 +49,8 @@ typedef void(^TTPhotosGridItemSelect)(NSInteger index,BOOL isSelected);
 
 @property (copy, nonatomic) TTPhotosGridItemSelect selectBlock;
 
+@property (assign, nonatomic) BOOL canBeSelect;
+
 -(void)itemSelectBlock:(TTPhotosGridItemSelect)block;
 
 @end
@@ -63,6 +66,8 @@ typedef void(^TTPhotosGridItemSelect)(NSInteger index,BOOL isSelected);
 }
 
 -(void)setUpUI{
+    _canBeSelect = YES;
+    
     self.potoView = [[UIImageView alloc] initWithFrame:self.bounds];
     self.potoView.contentMode = UIViewContentModeScaleAspectFill;
     self.potoView.clipsToBounds = YES;
@@ -75,6 +80,16 @@ typedef void(^TTPhotosGridItemSelect)(NSInteger index,BOOL isSelected);
     _selectBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 12, 12, 0);
     [_selectBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_selectBtn];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectFill) name:kSelectFillNotice object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectCan) name:kSelectCanNotice object:nil];
+}
+
+-(void)selectFill{
+    _canBeSelect = NO;
+}
+
+-(void)selectCan{
+    _canBeSelect = YES;
 }
 
 -(void)setModel:(TTPhotosGridItemModel *)model{
@@ -83,6 +98,12 @@ typedef void(^TTPhotosGridItemSelect)(NSInteger index,BOOL isSelected);
 }
 
 -(void)buttonClick:(UIButton *)sender{
+    if (sender.selected == NO) {
+        if (!_canBeSelect) {
+            _selectBlock(-1,sender.selected);
+            return;
+        }
+    }
     sender.selected = !sender.selected;
     _model.isSelected = sender.selected;
     _selectBlock(_model.index,sender.selected);
@@ -117,7 +138,7 @@ typedef void(^TTTestblock)();
 
 @property (strong, nonatomic) NSArray * dataArray;
 
-@property (strong, nonatomic) NSMutableSet * mset;
+@property (strong, nonatomic) NSMutableArray * mSelectArr;
 
 @end
 
@@ -129,10 +150,6 @@ typedef void(^TTTestblock)();
     [self readPhotos];
 }
 
--(void)dealloc{
-    NSLog(@"%s",__FUNCTION__);
-}
-
 -(void)setUpUI{
     self.view.backgroundColor = [UIColor whiteColor];
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -140,21 +157,22 @@ typedef void(^TTTestblock)();
     layout.minimumLineSpacing = 3;
     layout.minimumInteritemSpacing = 0;
     layout.itemSize = CGSizeMake(kItemWidth, kItemWidth);
-    _mainGirdView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0,kScreenWidth, kScreenHeight - 64) collectionViewLayout:layout];
+    _mainGirdView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0,kTTScreenWidth, kTTScreenHeight - 64) collectionViewLayout:layout];
     _mainGirdView.delegate = self;
     _mainGirdView.dataSource = self;
     _mainGirdView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_mainGirdView];
     [_mainGirdView registerClass:[TTPhotosGridItem class] forCellWithReuseIdentifier:kGridItemIdentifier];
-    CGFloat  scale = [UIScreen mainScreen].scale;
-    _imageSize = CGSizeMake(kItemWidth * scale, kItemWidth * scale);
+    
+    _imageSize = CGSizeMake(kItemWidth * kTTScale, kItemWidth * kTTScale);
     //right barItem
     UIBarButtonItem * rightBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
     self.navigationItem.rightBarButtonItem = rightBarItem;
 }
 
 -(void)readPhotos{
-    _mset = [NSMutableSet set];
+    _mSelectArr = [[NSMutableArray alloc] init];
+    
     self.fetchResults = (PHFetchResult *)self.fetchResult;
     NSMutableArray * mArray = [[NSMutableArray alloc] initWithCapacity:self.fetchResults.count];
     for (NSInteger i = 0; i < self.fetchResults.count; i++) {
@@ -170,28 +188,37 @@ typedef void(^TTTestblock)();
 }
 
 -(void)executDoneBlock{
-    if (self.mset.count > 0) {
+    if (self.mSelectArr.count > 0) {
         __block NSMutableArray * marr = @[].mutableCopy;
         dispatch_queue_t queue = dispatch_queue_create("com.tt.readImags", DISPATCH_QUEUE_SERIAL);
         dispatch_group_t group = dispatch_group_create();
-
-        NSArray * imageArr = [_mset allObjects];
         dispatch_async(queue, ^{
-            for (NSNumber * num in imageArr) {
-                PHAsset * asset = self.fetchResults[[num integerValue]];
+            for (NSInteger i = 0; i < _mSelectArr.count; i++) {
+                NSNumber * num = _mSelectArr[i];
+                PHAsset * asset = self.fetchResult[[num integerValue]];
                 PHImageRequestOptions * options = [[PHImageRequestOptions alloc] init];
                 options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
                 dispatch_group_enter(group);
                 [_imageManager requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
                     UIImage * image = [UIImage imageWithData:imageData];
-                    [marr addObject:image];
+                    if (image) {
+                        [marr addObject:@{@"image":image,@"index":@(i)}];
+                    }else{
+                        [marr addObject:@{@"image":[NSNull null],@"index":@(i)}];
+                    }
                     dispatch_group_leave(group);
                 }];
+
             }
             dispatch_group_notify(group, queue, ^{
+                NSSortDescriptor * sort = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
+                [marr sortUsingDescriptors:@[sort]];
+                for (int i = 0; i < marr.count; i ++) {
+                    NSDictionary * dict = marr[i];
+                    [marr replaceObjectAtIndex:i withObject:dict[@"image"]];
+                }
                 _selectImgBlock(marr.copy);
                 marr = nil;
-                [self dismissViewControllerAnimated:YES completion:nil];
                 return;
             });
         });
@@ -235,16 +262,35 @@ typedef void(^TTTestblock)();
 //            }
         }];
     }
-    __weak typeof (_mset)weak_mset = _mset;
+    __weak typeof (_mSelectArr)weak_mArr = _mSelectArr;
+    __weak typeof (self)weakSelf = self;
     [item itemSelectBlock:^(NSInteger index, BOOL isSelected) {
+        if (index == -1) {
+            [weakSelf showAlert];
+            return ;
+        }
         if (isSelected) {
-            [weak_mset addObject:@(index)];
+            [weak_mArr addObject:@(index)];
         }else{
-            [weak_mset removeObject:@(index)];
+            [weak_mArr removeObject:@(index)];
+        }
+        if (weak_mArr.count == weakSelf.maxPhotoNum) {
+             [[NSNotificationCenter defaultCenter] postNotificationName:kSelectFillNotice object:nil];
+        }else{
+             [[NSNotificationCenter defaultCenter] postNotificationName:kSelectCanNotice object:nil];
         }
     }];
     
     return item;
+}
+
+-(void)showAlert{
+    NSString * msg = [NSString stringWithFormat:@"你最多可以选择%ld张照片",(long)self.maxPhotoNum];
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
+    [self presentViewController:alert animated:NO completion:nil];
 }
 
 #pragma mark -UICollectionViewDelegateFlowLayout

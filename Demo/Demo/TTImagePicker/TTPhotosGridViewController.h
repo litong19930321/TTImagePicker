@@ -15,6 +15,8 @@ typedef void(^TTSelectedImg)(NSArray * images);
 
 @property (strong, nonatomic)  id  fetchResult;
 
+@property (assign, nonatomic) NSInteger  maxPhotoNum;
+
 -(void)completeChooseImage:(TTSelectedImg)block;
 
 @end

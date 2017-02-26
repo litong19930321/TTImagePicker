@@ -9,8 +9,8 @@
 #import "TTAListViewController.h"
 #import <Photos/Photos.h>
 #import "TTPhotosGridViewController.h"
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+#import "TTConst.h"
+
 #define kAListCellIdentifier @"com.tt.aListcell"
 
 #pragma mark - TTAListCellModel
@@ -61,7 +61,7 @@
     _groupHeadView.clipsToBounds = YES;
     [self.contentView addSubview:_groupHeadView];
     
-    _decriptionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(_groupHeadView.frame.size.width  + 5, 0,kScreenWidth - _groupHeadView.frame.size.width - 20, _groupHeadView.frame.size.height)];
+    _decriptionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(_groupHeadView.frame.size.width  + 5, 0,kTTScreenWidth - _groupHeadView.frame.size.width - 20, _groupHeadView.frame.size.height)];
     _decriptionTitleLabel.font = [UIFont systemFontOfSize:17];
     [self.contentView addSubview:_decriptionTitleLabel];
 }
@@ -90,20 +90,41 @@
 
 @property (copy, nonatomic) TTSelectedImg selectImgBlock;
 
+@property (assign, nonatomic) NSInteger maxPhotoNum;
+
 @end
 
 @implementation TTAListViewController
 
+-(instancetype)init{
+    self = [super init];
+    if (self) {
+        [self setConfig];
+    }
+    return self;
+}
+
+-(void)setConfig{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetMaxPhotoNum:) name:kSetMaxPhotoNumNotice object:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUpUI];
+    
+}
+
+-(void)resetMaxPhotoNum:(NSNotification *)message{
+    NSNumber * max = message.object;
+    self.maxPhotoNum = [max integerValue];
 }
 
 -(void)setUpUI{
+    
     self.title = @"照片";
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = [UIColor whiteColor];
-    _aListView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64)];
+    _aListView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kTTScreenWidth, kTTScreenHeight - 64)];
     _aListView.delegate = self;
     _aListView.dataSource = self;
     _aListView.rowHeight = 70.0f;
@@ -132,12 +153,30 @@
     PHFetchResult * alist_smart = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum  subtype:PHAssetCollectionSubtypeAlbumRegular options:fetchOptions];
     PHFetchResult * alist_album = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum  subtype:PHAssetCollectionSubtypeAlbumRegular options:fetchOptions];
     NSMutableArray * mArray = [NSMutableArray arrayWithCapacity:alist_smart.count + alist_album.count];
+    
+    
+    
+    
+    
     self.listModelArray = [[NSMutableArray alloc] init];
+    
+    //这是所有照片
+    
+    NSSortDescriptor * descriptor = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES];
+    PHFetchOptions * options = [[PHFetchOptions alloc] init];
+    options.sortDescriptors = @[descriptor];
+    PHFetchResult * fetchResult = [PHAsset fetchAssetsWithOptions:options];
+    TTAListCellModel * model = [TTAListCellModel new];
+    model.index = @(0);
+    model.colletionTitle = @"所有照片";
+    [self.listModelArray addObject:model];
+    [mArray addObject:fetchResult];
+   
     for (NSInteger i = 0; i < alist_album.count; i++) {
         PHCollection * collection = alist_album[i];
         [mArray addObject:collection];
         TTAListCellModel * model = [TTAListCellModel new];
-        model.index = @(i);
+        model.index = @(i + 1);
         model.colletionTitle = collection.localizedTitle;
         [self.listModelArray addObject:model];
     }
@@ -145,7 +184,7 @@
         PHCollection * collection = alist_smart[i];
         [mArray addObject:collection];
         TTAListCellModel * model = [TTAListCellModel new];
-        model.index = @(i + alist_album.count);
+        model.index = @(i + alist_album.count + 1);
         model.colletionTitle = collection.localizedTitle;
         [self.listModelArray addObject:model];
     }
@@ -164,18 +203,23 @@
     PHImageRequestOptions * requestOptions = [[PHImageRequestOptions alloc] init];
     requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     requestOptions.resizeMode = PHImageRequestOptionsResizeModeFast;
-    CGFloat  scale = [UIScreen mainScreen].scale;
     dispatch_queue_t queue = dispatch_queue_create("com.tt.getheadImg", DISPATCH_QUEUE_SERIAL);
     dispatch_group_t group = dispatch_group_create();
+    __weak typeof (self)wealSelf = self;
     dispatch_async(queue, ^{
-        for (NSInteger i = 0; i < self.aListArray.count; i ++) {
+        for (NSInteger i = 0; i < wealSelf.aListArray.count; i ++) {
             dispatch_group_enter(group);
             PHAssetCollection * collection = (PHAssetCollection *)self.aListArray[i];
             options.sortDescriptors = @[descriptor];
-            PHFetchResult * fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:options];
+            PHFetchResult * fetchResult = nil;
+            if (i != 0) {
+                fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:options];
+            }else{
+                fetchResult = [PHAsset fetchAssetsWithOptions:options];
+            }
             if (fetchResult.count > 0) {
                 PHAsset * asset = fetchResult[0];
-                [manager requestImageForAsset:asset targetSize:CGSizeMake(80 * scale, 70 * scale) contentMode:PHImageContentModeAspectFill options:requestOptions resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                [manager requestImageForAsset:asset targetSize:CGSizeMake(80 * kTTScale, 70 * kTTScale) contentMode:PHImageContentModeAspectFill options:requestOptions resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                     TTAListCellModel * model = _listModelArray[i];
                     model.totalCount = @(fetchResult.count);
                     model.headImg = result;
@@ -193,9 +237,9 @@
     });
     dispatch_group_notify(group, queue, ^{
         NSSortDescriptor * sort = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
-        [_listModelArray sortUsingDescriptors:@[sort]];
+        [wealSelf.listModelArray sortUsingDescriptors:@[sort]];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_aListView reloadData];
+            [wealSelf.aListView reloadData];
         });
     });
 }
@@ -211,30 +255,27 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     TTAListCell * cell = [tableView dequeueReusableCellWithIdentifier:kAListCellIdentifier];
-    
-//    PHCollection * collection = _aListArray[indexPath.row];
-//    if (collection.localizedTitle) {
-//        cell.textLabel.text = collection.localizedTitle;
-//    }else{
-//        cell.textLabel.text = @"未命名相薄";
-//    }
     TTAListCellModel * model = _listModelArray[indexPath.row];
     cell.model = model;
-    
-    
-    
     return cell;
 }
 #pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     TTPhotosGridViewController * girdVC = [[TTPhotosGridViewController alloc] init];
-    PHAssetCollection * assetCollection = (PHAssetCollection *)self.aListArray[indexPath.row];
-    PHFetchOptions * options = [[PHFetchOptions alloc] init];
-    NSSortDescriptor * descriptor = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES];
-    options.sortDescriptors = @[descriptor];
-    PHFetchResult * fetchResult = [PHAsset fetchAssetsInAssetCollection:assetCollection options:options];
+    PHFetchResult * fetchResult = nil;
+    if (indexPath.row != 0) {
+        PHAssetCollection * assetCollection = (PHAssetCollection *)self.aListArray[indexPath.row];
+        PHFetchOptions * options = [[PHFetchOptions alloc] init];
+        NSSortDescriptor * descriptor = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES];
+        options.sortDescriptors = @[descriptor];
+        fetchResult = [PHAsset fetchAssetsInAssetCollection:assetCollection options:options];
+    }else{
+        fetchResult = self.aListArray[0];
+    }
+    
     girdVC.fetchResult = fetchResult;
+    girdVC.maxPhotoNum = self.maxPhotoNum ? self.maxPhotoNum : 6;
     [girdVC completeChooseImage:^(NSArray *images) {
         _selectImgBlock(images);
     }];
