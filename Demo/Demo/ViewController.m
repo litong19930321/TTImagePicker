@@ -32,7 +32,7 @@
         
         
     }];
-    vc.navigationBar.barTintColor = [UIColor orangeColor];
+    vc.navigationBar.barTintColor = [UIColor whiteColor];
     [self presentViewController:vc animated:YES completion:nil];
 }
 - (void)didReceiveMemoryWarning {

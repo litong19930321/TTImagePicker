@@ -78,7 +78,7 @@
 
 #pragma mark - TTAListCTTAListViewControllerell
 
-@interface TTAListViewController ()<UITableViewDelegate,UITableViewDataSource>{
+@interface TTAListViewController ()<UITableViewDelegate,UITableViewDataSource,PHPhotoLibraryChangeObserver>{
 
 }
 
@@ -92,6 +92,11 @@
 
 @property (assign, nonatomic) NSInteger maxPhotoNum;
 
+//PHFetchResult
+//system create
+@property (strong, nonatomic) PHFetchResult * alist_smart;
+//user create
+@property (strong, nonatomic) PHFetchResult * alist_album;
 @end
 
 @implementation TTAListViewController
@@ -110,10 +115,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self congfig];
     [self setUpUI];
     
 }
-
+-(void)congfig{
+    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+}
+-(void)dealloc{
+    [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
+}
+//设置最大选择数量的通知
 -(void)resetMaxPhotoNum:(NSNotification *)message{
     NSNumber * max = message.object;
     self.maxPhotoNum = [max integerValue];
@@ -150,18 +162,14 @@
     NSSortDescriptor * sort = [NSSortDescriptor sortDescriptorWithKey:@"estimatedAssetCount" ascending:NO];
     PHFetchOptions * fetchOptions= [[PHFetchOptions alloc] init];
     fetchOptions.sortDescriptors = @[sort];
-    PHFetchResult * alist_smart = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum  subtype:PHAssetCollectionSubtypeAlbumRegular options:fetchOptions];
-    PHFetchResult * alist_album = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum  subtype:PHAssetCollectionSubtypeAlbumRegular options:fetchOptions];
-    NSMutableArray * mArray = [NSMutableArray arrayWithCapacity:alist_smart.count + alist_album.count];
-    
-    
-    
-    
-    
+    _alist_smart = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum  subtype:PHAssetCollectionSubtypeAlbumRegular options:fetchOptions];
+    _alist_album = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum  subtype:PHAssetCollectionSubtypeAlbumRegular options:fetchOptions];
+    [self readFetchResult];
+}
+-(void)readFetchResult{
+    NSMutableArray * mArray = [NSMutableArray arrayWithCapacity:_alist_smart.count + _alist_album.count];
     self.listModelArray = [[NSMutableArray alloc] init];
-    
     //这是所有照片
-    
     NSSortDescriptor * descriptor = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES];
     PHFetchOptions * options = [[PHFetchOptions alloc] init];
     options.sortDescriptors = @[descriptor];
@@ -171,27 +179,26 @@
     model.colletionTitle = @"所有照片";
     [self.listModelArray addObject:model];
     [mArray addObject:fetchResult];
-   
-    for (NSInteger i = 0; i < alist_album.count; i++) {
-        PHCollection * collection = alist_album[i];
+    
+    for (NSInteger i = 0; i < _alist_album.count; i++) {
+        PHCollection * collection = _alist_album[i];
         [mArray addObject:collection];
         TTAListCellModel * model = [TTAListCellModel new];
         model.index = @(i + 1);
         model.colletionTitle = collection.localizedTitle;
         [self.listModelArray addObject:model];
     }
-    for (NSInteger i = 0; i < alist_smart.count; i++) {
-        PHCollection * collection = alist_smart[i];
+    for (NSInteger i = 0; i < _alist_smart.count; i++) {
+        PHCollection * collection = _alist_smart[i];
         [mArray addObject:collection];
         TTAListCellModel * model = [TTAListCellModel new];
-        model.index = @(i + alist_album.count + 1);
+        model.index = @(i + _alist_album.count + 1);
         model.colletionTitle = collection.localizedTitle;
         [self.listModelArray addObject:model];
     }
     self.aListArray = mArray.copy;
     mArray = nil;
     [_aListView reloadData];
-    
     [self getFristImgForEveryColletcion];
 }
 
@@ -280,5 +287,11 @@
         _selectImgBlock(images);
     }];
     [self.navigationController pushViewController:girdVC animated:YES];
+}
+#pragma mark -PHPhotoLibraryChangeObserver
+- (void)photoLibraryDidChange:(PHChange *)changeInstance{
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self getAListFromSystems];
+    });
 }
 @end

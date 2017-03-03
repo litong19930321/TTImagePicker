@@ -120,7 +120,7 @@ typedef void(^TTPhotosGridItemSelect)(NSInteger index,BOOL isSelected);
 
 typedef void(^TTTestblock)();
 
-@interface TTPhotosGridViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>{
+@interface TTPhotosGridViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,PHPhotoLibraryChangeObserver>{
     
 }
 
@@ -146,8 +146,16 @@ typedef void(^TTTestblock)();
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self config];
     [self setUpUI];
     [self readPhotos];
+    
+}
+-(void)config{
+    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+}
+-(void)dealloc{
+    [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
 }
 
 -(void)setUpUI{
@@ -171,8 +179,11 @@ typedef void(^TTTestblock)();
 }
 
 -(void)readPhotos{
-    _mSelectArr = [[NSMutableArray alloc] init];
-    
+    if (!_mSelectArr) {
+        _mSelectArr = [[NSMutableArray alloc] init];
+    }else{
+        [_mSelectArr removeAllObjects];
+    }
     self.fetchResults = (PHFetchResult *)self.fetchResult;
     NSMutableArray * mArray = [[NSMutableArray alloc] initWithCapacity:self.fetchResults.count];
     for (NSInteger i = 0; i < self.fetchResults.count; i++) {
@@ -183,7 +194,9 @@ typedef void(^TTTestblock)();
     }
     self.dataArray = mArray.copy;
     mArray = nil;
-    _imageManager = [PHCachingImageManager defaultManager];
+    if (!_imageManager) {
+        _imageManager = [PHCachingImageManager defaultManager];
+    }
     [_mainGirdView reloadData];
 }
 
@@ -303,5 +316,13 @@ typedef void(^TTTestblock)();
     TTPhotoViewController * photoVC = [[TTPhotoViewController alloc] init];
     photoVC.fetchInfo = dict;
     [self.navigationController pushViewController:photoVC animated:YES];
+}
+#pragma mark -PHPhotoLibraryChangeObserver
+- (void)photoLibraryDidChange:(PHChange *)changeInstance{
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        PHFetchResultChangeDetails * changes = [changeInstance changeDetailsForFetchResult:(PHFetchResult *)self.fetchResult];
+        self.fetchResult = changes.fetchResultAfterChanges;
+        [self readPhotos];
+    });
 }
 @end
