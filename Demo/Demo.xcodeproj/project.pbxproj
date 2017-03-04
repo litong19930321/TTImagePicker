@@ -14,6 +14,7 @@
 		9D1094FC1E620020001E4186 /* TTPhotoPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1094F31E620020001E4186 /* TTPhotoPickerController.m */; };
 		9D1094FD1E620020001E4186 /* TTPhotosGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1094F51E620020001E4186 /* TTPhotosGridViewController.m */; };
 		9D1094FE1E620020001E4186 /* TTPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1094F71E620020001E4186 /* TTPhotoViewController.m */; };
+		9D1680B11E6B02A50053BDDB /* TTConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1680B01E6B02A50053BDDB /* TTConst.m */; };
 		9DDD633C1E609A3B00A532CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDD633B1E609A3B00A532CB /* main.m */; };
 		9DDD633F1E609A3B00A532CB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDD633E1E609A3B00A532CB /* AppDelegate.m */; };
 		9DDD63421E609A3B00A532CB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDD63411E609A3B00A532CB /* ViewController.m */; };
@@ -53,6 +54,8 @@
 		9D1094F51E620020001E4186 /* TTPhotosGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPhotosGridViewController.m; sourceTree = "<group>"; };
 		9D1094F61E620020001E4186 /* TTPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPhotoViewController.h; sourceTree = "<group>"; };
 		9D1094F71E620020001E4186 /* TTPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPhotoViewController.m; sourceTree = "<group>"; };
+		9D1680AF1E6B02A50053BDDB /* TTConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTConst.h; sourceTree = "<group>"; };
+		9D1680B01E6B02A50053BDDB /* TTConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTConst.m; sourceTree = "<group>"; };
 		9DDD63371E609A3B00A532CB /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DDD633B1E609A3B00A532CB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9DDD633D1E609A3B00A532CB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -110,6 +113,8 @@
 				9D1094F51E620020001E4186 /* TTPhotosGridViewController.m */,
 				9D1094F61E620020001E4186 /* TTPhotoViewController.h */,
 				9D1094F71E620020001E4186 /* TTPhotoViewController.m */,
+				9D1680AF1E6B02A50053BDDB /* TTConst.h */,
+				9D1680B01E6B02A50053BDDB /* TTConst.m */,
 			);
 			path = TTImagePicker;
 			sourceTree = "<group>";
@@ -319,6 +324,7 @@
 				9D1094FC1E620020001E4186 /* TTPhotoPickerController.m in Sources */,
 				9D1094FD1E620020001E4186 /* TTPhotosGridViewController.m in Sources */,
 				9D1094FE1E620020001E4186 /* TTPhotoViewController.m in Sources */,
+				9D1680B11E6B02A50053BDDB /* TTConst.m in Sources */,
 				9DDD63421E609A3B00A532CB /* ViewController.m in Sources */,
 				9DDD633F1E609A3B00A532CB /* AppDelegate.m in Sources */,
 				9D1094FB1E620020001E4186 /* TTAListViewController.m in Sources */,

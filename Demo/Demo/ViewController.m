@@ -32,6 +32,7 @@
         
         
     }];
+    vc.maxPhotoNum = 3;
     vc.navigationBar.barTintColor = [UIColor whiteColor];
     [self presentViewController:vc animated:YES completion:nil];
 }

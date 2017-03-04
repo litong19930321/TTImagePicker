@@ -12,8 +12,10 @@
 #import "TTConst.h"
 
 
-#define kGridItemIdentifier @"com.tt.aListcell"
-#define kItemWidth (kTTScreenWidth - 5 * 3) / 4
+#define kItemWidth (TTScreenWidth - 5 * 3) / 4
+
+static NSString * const kGridItemIdentifier = @"com.tt.aListcell";
+
 
 
 
@@ -80,8 +82,8 @@ typedef void(^TTPhotosGridItemSelect)(NSInteger index,BOOL isSelected);
     _selectBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 12, 12, 0);
     [_selectBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_selectBtn];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectFill) name:kSelectFillNotice object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectCan) name:kSelectCanNotice object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectFill) name:TTSelectFillNotice object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectCan) name:TTSelectCanNotice object:nil];
 }
 
 -(void)selectFill{
@@ -165,14 +167,14 @@ typedef void(^TTTestblock)();
     layout.minimumLineSpacing = 3;
     layout.minimumInteritemSpacing = 0;
     layout.itemSize = CGSizeMake(kItemWidth, kItemWidth);
-    _mainGirdView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0,kTTScreenWidth, kTTScreenHeight - 64) collectionViewLayout:layout];
+    _mainGirdView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0,TTScreenWidth, TTScreenHeight - 64) collectionViewLayout:layout];
     _mainGirdView.delegate = self;
     _mainGirdView.dataSource = self;
     _mainGirdView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_mainGirdView];
     [_mainGirdView registerClass:[TTPhotosGridItem class] forCellWithReuseIdentifier:kGridItemIdentifier];
     
-    _imageSize = CGSizeMake(kItemWidth * kTTScale, kItemWidth * kTTScale);
+    _imageSize = CGSizeMake(kItemWidth * TTScale, kItemWidth * TTScale);
     //right barItem
     UIBarButtonItem * rightBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
     self.navigationItem.rightBarButtonItem = rightBarItem;
@@ -288,9 +290,9 @@ typedef void(^TTTestblock)();
             [weak_mArr removeObject:@(index)];
         }
         if (weak_mArr.count == weakSelf.maxPhotoNum) {
-             [[NSNotificationCenter defaultCenter] postNotificationName:kSelectFillNotice object:nil];
+             [[NSNotificationCenter defaultCenter] postNotificationName:TTSelectFillNotice object:nil];
         }else{
-             [[NSNotificationCenter defaultCenter] postNotificationName:kSelectCanNotice object:nil];
+             [[NSNotificationCenter defaultCenter] postNotificationName:TTSelectCanNotice object:nil];
         }
     }];
     

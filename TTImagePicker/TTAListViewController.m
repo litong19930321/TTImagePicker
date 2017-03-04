@@ -11,7 +11,9 @@
 #import "TTPhotosGridViewController.h"
 #import "TTConst.h"
 
-#define kAListCellIdentifier @"com.tt.aListcell"
+//#define kAListCellIdentifier @"com.tt.aListcell"
+
+static  NSString *  const  kAListCellIdentifier = @"com.tt.aListcell";
 
 #pragma mark - TTAListCellModel
 
@@ -61,7 +63,7 @@
     _groupHeadView.clipsToBounds = YES;
     [self.contentView addSubview:_groupHeadView];
     
-    _decriptionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(_groupHeadView.frame.size.width  + 5, 0,kTTScreenWidth - _groupHeadView.frame.size.width - 20, _groupHeadView.frame.size.height)];
+    _decriptionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(_groupHeadView.frame.size.width  + 5, 0,TTScreenWidth - _groupHeadView.frame.size.width - 20, _groupHeadView.frame.size.height)];
     _decriptionTitleLabel.font = [UIFont systemFontOfSize:17];
     [self.contentView addSubview:_decriptionTitleLabel];
 }
@@ -110,7 +112,7 @@
 }
 
 -(void)setConfig{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetMaxPhotoNum:) name:kSetMaxPhotoNumNotice object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetMaxPhotoNum:) name:TTSetMaxPhotoNumNotice object:nil];
 }
 
 - (void)viewDidLoad {
@@ -136,7 +138,7 @@
     self.title = @"照片";
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = [UIColor whiteColor];
-    _aListView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kTTScreenWidth, kTTScreenHeight - 64)];
+    _aListView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, TTScreenWidth, TTScreenHeight - 64)];
     _aListView.delegate = self;
     _aListView.dataSource = self;
     _aListView.rowHeight = 70.0f;
@@ -226,7 +228,7 @@
             }
             if (fetchResult.count > 0) {
                 PHAsset * asset = fetchResult[0];
-                [manager requestImageForAsset:asset targetSize:CGSizeMake(80 * kTTScale, 70 * kTTScale) contentMode:PHImageContentModeAspectFill options:requestOptions resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                [manager requestImageForAsset:asset targetSize:CGSizeMake(80 * TTScale, 70 * TTScale) contentMode:PHImageContentModeAspectFill options:requestOptions resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                     TTAListCellModel * model = _listModelArray[i];
                     model.totalCount = @(fetchResult.count);
                     model.headImg = result;

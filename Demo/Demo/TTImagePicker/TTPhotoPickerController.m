@@ -46,6 +46,6 @@
 }
 
 -(void)setMaxPhotoNum:(NSInteger)maxPhotoNum{
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSetMaxPhotoNumNotice object:@(maxPhotoNum)];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TTSetMaxPhotoNumNotice object:@(maxPhotoNum)];
 }
 @end
