@@ -29,9 +29,8 @@
             imageView.clipsToBounds = YES;
             [self.view addSubview:imageView];
         }
-        
-        
     }];
+    //设置最大选择量为3张，如果不设置则默认为6张
     vc.maxPhotoNum = 3;
     vc.navigationBar.barTintColor = [UIColor whiteColor];
     [self presentViewController:vc animated:YES completion:nil];
