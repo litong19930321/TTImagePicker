@@ -158,6 +158,7 @@ typedef void(^TTTestblock)();
 }
 -(void)dealloc{
     [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)setUpUI{

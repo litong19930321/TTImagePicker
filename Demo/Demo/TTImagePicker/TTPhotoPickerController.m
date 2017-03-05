@@ -19,6 +19,9 @@
 
 @implementation TTPhotoPickerController
 
+- (instancetype)init{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"必须以initWithComplete:方法初始化" userInfo:nil];
+}
 
 -(instancetype)initWithComplete:(TTComplete)block{
     TTAListViewController * ttVC = [[TTAListViewController alloc] init];

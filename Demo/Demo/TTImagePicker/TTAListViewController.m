@@ -126,6 +126,7 @@ static  NSString *  const  kAListCellIdentifier = @"com.tt.aListcell";
 }
 -(void)dealloc{
     [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 //设置最大选择数量的通知
 -(void)resetMaxPhotoNum:(NSNotification *)message{
